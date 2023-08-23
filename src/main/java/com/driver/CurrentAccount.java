@@ -15,12 +15,10 @@ public class CurrentAccount extends BankAccount{
     public CurrentAccount(String name, double balance, String tradeLicenseId) throws Exception {
         // minimum balance is 5000 by default. If balance is less than 5000, throw "Insufficient Balance" exception
         super(name, balance, 5000);
-        if(balance > 5000) {
-            this.tradeLicenseId = tradeLicenseId;
-        }
-        else {
+        if(balance<5000) {
             throw new Exception("Insufficient Balance");
         }
+        this.tradeLicenseId= tradeLicenseId;
     }
 
     public void validateLicenseId() throws Exception {
@@ -34,10 +32,10 @@ public class CurrentAccount extends BankAccount{
             return;
 
         PriorityQueue<Pair>pq=new PriorityQueue<>(new SortByFreq());
-        int freq[]=new int[26];
+        int[] freq =new int[26];
         int n=licence.length;
-        for(int i=0;i<n;i++){
-            freq[licence[i]-'A']++;
+        for (char c : licence) {
+            freq[c - 'A']++;
         }
         for(int i=0;i<26;i++){
             if(freq[i]!=0){
@@ -45,7 +43,7 @@ public class CurrentAccount extends BankAccount{
             }
         }
         StringBuilder sb=new StringBuilder();
-        while(pq.size()>0){
+        while(!pq.isEmpty()){
             Pair p1=pq.remove();
             sb.append(p1.c);
             p1.freq--;
